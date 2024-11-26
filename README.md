@@ -1,5 +1,7 @@
-# Generalized_Hough_OpenCV_sample
-Samlpe program using Generalized Hough transform with OpenCV to perform shape based matching.
+# Generalized Hough Transform Performance Comparison in Serial and Parallel
+The parallel side of the algorithm will be implemented using MPI.
+
+The original code from the author is presereved so for further work on the project, the Cuda implementation also be applied.
 
 This repository is under development.
 
