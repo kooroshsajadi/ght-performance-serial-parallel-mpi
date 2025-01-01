@@ -9,7 +9,7 @@
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}",
+                "${fileDirname}/executables/${fileBasenameNoExtension}",
                 "`pkg-config", // Add pkg-config commands
                 "--cflags",
                 "--libs",
