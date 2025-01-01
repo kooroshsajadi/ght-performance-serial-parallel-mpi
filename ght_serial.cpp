@@ -1,20 +1,27 @@
-#include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui.hpp>
 #include <iostream>
-#include <opencv2/core/mat.hpp>
+#include <opencv2/opencv.hpp>
+
+using namespace std;
+using namespace cv;
 
 int main()
 {
-    std::string image_path = "./image.png";
-    cv::Mat img = cv::imread(image_path, cv::IMREAD_COLOR);
+    // Load the teimplate and target images in grayscale.
+    Mat img_template = imread("template_small_2.png", IMREAD_GRAYSCALE);
+    Mat img = imread("image.png", IMREAD_GRAYSCALE);
 
-    if (img.empty()) {
-        std::cerr << "Could not open or find the image!" << std::endl;
+    if (img_template.empty() || img.empty()) {
+        cerr << "Error: Could not load images." << endl;
         return -1;
     }
 
-    cv::imshow("Display window", img);
-    int k = cv::waitKey(0); // Wait for a keystroke in the window
+    // Display images verify successful loading.
+    namedWindow("Template", WINDOW_NORMAL);
+    imshow("Template", img_template);
+
+    namedWindow("Image", WINDOW_NORMAL);
+    imshow("Image", img);
+
+    waitKey(0);
     return 0;
-}
+}   
