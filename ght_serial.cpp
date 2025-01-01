@@ -16,11 +16,47 @@ int main()
     }
 
     // Display images verify successful loading.
-    namedWindow("Template", WINDOW_NORMAL);
-    imshow("Template", img_template);
+    // namedWindow("Template", WINDOW_NORMAL);
+    // imshow("Template", img_template);
 
-    namedWindow("Image", WINDOW_NORMAL);
-    imshow("Image", img);
+    // namedWindow("Image", WINDOW_NORMAL);
+    // imshow("Image", img);
+
+    // Processing: Edge detection and gradient computation.
+    Mat canny_template, dx_template, dy_template;
+    Mat canny, dx, dy;
+
+    int cannLow = 150, cannHigh = 230, sobelKernelSize = 5;
+    double sobelScale = 0.05;
+
+    // Apply Canny edge detection.
+    Canny(img_template, canny_template, cannLow, cannHigh);
+    Canny(img, canny, cannLow, cannHigh);
+
+    // Compute gradients.
+    Sobel(img_template, dx_template, CV_32F, 1, 0, sobelKernelSize, sobelScale);
+    Sobel(img_template, dy_template, CV_32F, 0, 1, sobelKernelSize, sobelScale);
+    Sobel(img, dx, CV_32F, 1, 0, sobelKernelSize, sobelScale);
+    Sobel(img, dy, CV_32F, 0, 1, sobelKernelSize, sobelScale);
+
+    // Display preprocessed results.
+    namedWindow("Canny Template", WINDOW_NORMAL);
+    imshow("Canny Template", canny_template);
+
+    namedWindow("Canny Image", WINDOW_NORMAL);
+    imshow("Canny Image", canny);
+
+    namedWindow("Gradient X Template", WINDOW_NORMAL);
+    imshow("Gradient X Template", dx_template);
+
+    namedWindow("Gradient Y Template", WINDOW_NORMAL);
+    imshow("Gradient Y Template", dy_template);
+
+    namedWindow("Gradient X Image", WINDOW_NORMAL);
+    imshow("Gradient X Image", dx);
+
+    namedWindow("Gradient Y Image", WINDOW_NORMAL);
+    imshow("Gradient Y Image", dy);
 
     waitKey(0);
     return 0;
