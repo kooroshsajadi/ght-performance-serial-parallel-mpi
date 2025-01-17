@@ -8,9 +8,12 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
+                "${workspaceFolder}/src/preprocessing.cpp",
                 "-o",
-                "${fileDirname}/executables/${fileBasenameNoExtension}",
-                "`pkg-config", // Add pkg-config commands
+                "${workspaceFolder}/executables/${fileBasenameNoExtension}",
+                "-I",
+                "${workspaceFolder}/include",
+                "`pkg-config",
                 "--cflags",
                 "--libs",
                 "opencv4`"

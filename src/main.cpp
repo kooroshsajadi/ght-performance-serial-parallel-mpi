@@ -1,42 +1,28 @@
 #include <iostream>
-#include "preprocessing.h"
-#include "model.h"
-#include "voting.h"
-#include "detection.h"
-#include "visualization.h"
+#include "../include/preprocessing.h"
+#include <opencv2/opencv.hpp>
+
+using namespace std;
+using namespace cv;
 
 int main(int argc, char** argv) {
-    // Step 1: Argument Validation
-    if (argc < 3) {
-        std::cerr << "Usage: " << argv[0] << " <image_path> <template_path>" << std::endl;
-        return 1;
-    }
-
-    std::string image_path = argv[1];
-    std::string template_path = argv[2];
-
     try {
-        // Step 2: Preprocessing
-        cv::Mat image = loadImage(image_path);
-        cv::Mat template_image = loadImage(template_path);
-        cv::Mat edges = detectEdges(image);
-        
-        // Step 3: Model Initialization
-        Accumulator accumulator = initializeAccumulator(template_image);
+        cv::Mat image = loadImage("../image.jpg");
+        cv::Mat template_image = loadImage("../template_small_2.jpg");
 
-        // Step 4: Voting Process
-        performVoting(edges, accumulator);
+        Mat canny, canny_template;
+        int cannLow = 150, cannHigh = 230;
+        computeCanny(image, canny, cannLow, cannHigh);
+        computeCanny(template_image, canny_template, cannLow, cannHigh);
 
-        // Step 5: Peak Detection
-        std::vector<DetectionResult> results = detectPeaks(accumulator);
+        Mat dx, dy, dx_template, dy_template;
+        int sobelKernelSize = 5;
+        double sobelScale = 0.05;
+        computeGradients(image, dx, dy, sobelKernelSize, sobelScale);
+        computeGradients(template_image, dx_template, dy_template, sobelKernelSize, sobelScale);
 
-        // Step 6: Visualization
-        visualizeResults(image, results);
-
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
-        return 1;
+    } catch (const std::runtime_error& error) {
+        std::cerr << "Error: " << error.what() << std::endl;
     }
-
     return 0;
 }
